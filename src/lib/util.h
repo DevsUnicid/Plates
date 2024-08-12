@@ -50,17 +50,6 @@ char *trim(char *s) {
     return rightTrim(leftTrim(s)); 
 }
 
-// void imprimeRaridade(char simbolo) {
-//     if (simbolo == 'C')
-//         printf("\n\tCOMUM");
-//     else if (simbolo == 'U')
-//         printf("\n\tINCOMUM");
-//     else if (simbolo == 'R')
-//         printf("\n\tRARA");
-//     else
-//         printf("\n\tMÍTICA");
-// }
-
 int calculaCMC(char CMC[]) {
     int custo;
 
@@ -127,57 +116,5 @@ Mbox *iniciaBoosterBox() {
     }
     return boosterBox;
 }
-// void liberaMemoria(Sprato *lista) {
-//     Sprato *cardAtual = buscaUltimoPrato(lista);
-
-// void strRaridade(Sprato card) {
-//     if (card.raridade == "C" || card.raridade == 'C')
-//         printf("   {Comum}");
-//     else if (card.raridade == "U" || card.raridade == 'U')
-//         printf("   {Incomum}");
-//     else if (card.raridade == "R" || card.raridade == 'R')
-//         printf("   {Rara}");
-//     else
-//         printf("   {Mítica}");
-// }
-
-// bool isCriatura(Sprato card) {
-//     return card.tipo == "Criatura" || card.tipo == 'Criatura';
-// }
-
-// void apresentaInfoCard(Sprato card) {
-//     int cont;
-//     char *materia;
-
-//     printf("\n# %d - %s", card.pratoId, card.nome);
-
-//     printf("\n\tCusto de mana: %s (%d)", card.mana, card.cmc);
-//     printf("\n\t%s", card.tipo);
-    
-//     if (card.subtipo[0] != NULL && card.subtipo[0] != "")
-//          printf(" - %s", card.subtipo);
-    
-//     imprimeRaridade(card.raridade);
-//     printf("\n******************************\n");
-// }
-
-// bool ehDaCor(Sprato *card, char cor) {
-//     char manaAux[6];
-//     strcpy(manaAux, card->mana);
-
-//     for (int i = 0; i < 6; i++) {
-//         if (manaAux[i] == cor) return true;
-//     }
-//     return false;
-
-
-// }
-
-//     while(lista->proximo != NULL) {
-//         free(cardAtual);
-//         cardAtual = buscaUltimoPrato(lista);
-//     }
-//     free(cardAtual);
-// }
 
 #endif
