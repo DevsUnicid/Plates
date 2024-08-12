@@ -71,31 +71,6 @@ Sprato *alocaPratoFromChar(char infoPrato[], int numeroCarta)
     return pNovoPrato;
 }
 
-// Sprato *listaDeCardsPorRaridade(Sprato *cardCardaprio, char raridade) {
-//     int tamanhoLista = 1;
-//     Sprato *aux, *auxUltimo, *lista = NULL;
-
-//     while (cardCardaprio->proximo != NULL) {
-//         if (cardCardaprio->raridade == raridade) {
-//             aux = deepCopyPrato(cardCardaprio);
-
-//             if (lista == NULL) {
-//                 lista = aux;
-//                 auxUltimo = aux;
-//             }
-//             else {
-//                 auxUltimo->proximo = aux;
-//                 auxUltimo = auxUltimo->proximo;
-//             }
-//             tamanhoLista++;
-//         }
-//         cardCardaprio = cardCardaprio->proximo;
-//     }
-//     auxUltimo->proximo = NULL;
-
-//     return lista;
-// }
-
 void apresentainfoPrato(Sprato card) {
     int cont;
     char *materia;
