@@ -44,13 +44,13 @@ int main() {
     // Localiza o código no 'Portuguese' para usarmos caracteres especiais
     setlocale(LC_ALL, "Portuguese");
 
-    int cont;
-    char escolhaUsuario;
-    Sprato *deck, novoPrato, *cardapio;
+    int cont, numeroPratoAux;
+    char escolhaUsuario, nomePrato[50];
+    Sprato *novoPrato, *cardapio, *pratoAux;
 
     cardapio = carregaBancoCsvEmLista();
 
-    menuInicial(true, true);
+    menuInicial(true, true, cardapio);
     printf("\n::: ");
 
     scanf("%c", &escolhaUsuario);
@@ -58,8 +58,9 @@ int main() {
     system("@cls||clear");
 
     while(true) {
+        // printf("\n escolhaUsuario: %c - escolhaUsuario == NULL: %d", escolhaUsuario, escolhaUsuario == NULL);
         if (escolhaUsuario == NULL) {
-            menuInicial(false, false);
+            menuInicial(false, false, cardapio);
             printf("\n::: ");
 
             scanf("%c", &escolhaUsuario);
@@ -68,24 +69,56 @@ int main() {
 
         switch (escolhaUsuario)
         {
+            // Opção 1 - Apresentar cardápio
             case '1':
                 imprimeCardapio(cardapio, false);
                 printf("\n\n\n");
+
                 break;
             
+            // Opção 2 - Inserir um prato
             case '2':
-                // sistemaBusca(cardapio);
-                printf("\n\n\n");
+                menuInserePrato(cardapio);
+                imprimeCardapio(cardapio, false);
+
+                escolhaUsuario = NULL;
+
                 break;
 
+            // Opção 3 - Buscar pratos
             case '3':
-                // boosterBox = geraBoosters(cardapio);
-                // iniciaDraft(boosterBox);
-                fflush(stdin);
+                menuBusca(nomePrato, true);
+                novoPrato = buscaPratoPorNome(cardapio, nomePrato);
+
+                if (novoPrato != NULL) {
+                    apresentainfoPrato(*novoPrato);
+                    printf("\n\n\n");
+                }
+                else {
+                    printf("\n\n\n\t\tPrato não encontrado!\n\n\n\n\n\n\n");
+                }
+
                 break;
 
+            // Opção 4 - Exclui prato
+            case '4':
+                imprimeCardapio(cardapio, false);
+                pratoAux = excluiPratoPorId(cardapio, menuExcluiPrato(true));
+
+                if (pratoAux != NULL) {
+                    apresentainfoPrato(*pratoAux);
+                    printf("\n\tPrato excluído com sucesso!\n\n\n\n");
+                }
+                else {
+                    printf("\n\n\n\t\tPrato não encontrado!\n\n\n\n\n\n\n");
+                    imprimeCardapio(cardapio, false);
+                };
+
+                break;
+
+            // Opção 0 - Sair do programa
             case '0':
-                printf("\n\n\n\t\tObrigado por usar o MagiC. Seu simulador de draft de código aberto!\n\n\n\n\n\n\n");
+                printf("\n\n\n\t\tObrigado por usar o Plates. O sistema de cardápio dos Deuses do Olimpo e de código aberto!\n\n\n\n\n\n\n");
                 exit(0);
             
             default:

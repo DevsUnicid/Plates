@@ -5,6 +5,7 @@
 #include<stdio.h>
 
 #include "buscaSequencial.h"
+#include "manipulaLista.h"
 
 TAMANHO_PADRAO=80;
 
@@ -21,8 +22,9 @@ void espacamentoVertical(char padrao, int tamanhoPadrao) {
     imprimeRepeticao(padrao, (tamanhoPadrao - 56)/2);
 }
 
-void menuInicial(bool comCabecalho, bool apagaTudo) {
-    int tamanhoPadrao = TAMANHO_PADRAO;
+void menuInicial(bool comCabecalho, bool apagaTudo, Sprato *cardapio) {
+    int tamanhoPadrao = TAMANHO_PADRAO, 
+        qtdCardapio   = contaPratos(cardapio);
 
     if (apagaTudo) system("@cls||clear");
 
@@ -37,12 +39,17 @@ void menuInicial(bool comCabecalho, bool apagaTudo) {
     if (comCabecalho) {    
         printf("\n");
         imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
-        printf("     Seja muito bem vindo(a) ao simulador de Draft!     ");
+        printf("          Seja muito bem vindo(a) ao Plates!            ");
         imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
 
         printf("\n");
         imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
-        printf("   O simulador te auxiliará nas picks durante o draft   ");
+        printf("       O sistema de cardápio dos Deuses do Olimpo       ");
+        imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
+
+        printf("\n");
+        imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
+        printf("       Já temos %d pratos cadastrados no cardápio!      ", qtdCardapio);
         imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
     }
 
@@ -60,26 +67,39 @@ void menuInicial(bool comCabecalho, bool apagaTudo) {
     printf("   (Digite o número correspondente à ação que deseja)   ");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
 
+    if (!comCabecalho) {
+        printf("\n");
+        imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
+        printf("       Agora temos %d pratos cadastrados no cardápio!      ", qtdCardapio);
+        imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
+    }
+
     // Pula linha no menu (espaçamento vertical)
     espacamentoVertical('*', tamanhoPadrao);
     espacamentoVertical('*', tamanhoPadrao);
 
-    // Opção 1 - Mostrar Coleção
+    // Opção 1 - Apresentar cardápio
     printf("\n");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
-    printf("          1 - Apresentar coleção                        ");
+    printf("          1 - Apresentar cardápio                       ");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
 
-    // Opção 2 - Iniciar Draft
+    // Opção 2 - Inserir um prato
     printf("\n");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
-    printf("          2 - Buscar cards                              ");
+    printf("          2 - Inserir um prato                          ");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
 
-    // Opção 3 - Iniciar Draft
+    // Opção 3 - Buscar pratos
     printf("\n");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
-    printf("          3 - Iniciar Draft                             ");
+    printf("          3 - Buscar pratos                             ");
+    imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
+
+    // Opção 4 - Exclui prato
+    printf("\n");
+    imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
+    printf("          4 - Excluir um prato pelo Id                  ");
     imprimeRepeticao('*', (tamanhoPadrao - 56)/2);
 
     // Opção 0 - Sair do programa
@@ -98,7 +118,7 @@ void menuInicial(bool comCabecalho, bool apagaTudo) {
     printf("\n");
 }
 
-void menuBusca(bool apagaTudo) {
+void menuBusca(char *nomePrato, bool apagaTudo) {
     int tamanhoPadrao = TAMANHO_PADRAO;
 
     if (apagaTudo) system("@cls||clear");
@@ -118,48 +138,11 @@ void menuBusca(bool apagaTudo) {
 
     printf("\n");
     imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-    printf("        Qual o tipo da busca você deseja fazer?         ");
+    printf("       Digite o nome do prato que está buscando?         ");
     imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
 
 
     // Pula linha no menu (espaçamento vertical)
-    espacamentoVertical('#', tamanhoPadrao);
-    espacamentoVertical('#', tamanhoPadrao);
-
-    printf("\n");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-    printf("   (Digite o número correspondente à ação que deseja)   ");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-
-    // Pula linha no menu (espaçamento vertical)
-    espacamentoVertical('#', tamanhoPadrao);
-    espacamentoVertical('#', tamanhoPadrao);
-
-    // Opção 1 - Mostrar Coleção
-    printf("\n");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-    printf("          1 - Nome                                      ");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-
-    // Opção 2 - Iniciar Draft
-    printf("\n");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-    printf("          2 - Cor                                       ");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-
-    // Opção 3 - Iniciar Draft
-    printf("\n");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-    printf("          3 - CMC (Custo de mana convertido)            ");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-
-    // Opção 0 - Sair do programa
-    printf("\n");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-    printf("          0 - Voltar para o menu anterior               ");
-    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
-
-    // Pula linha no menu (espaçamento vert ical)
     espacamentoVertical('#', tamanhoPadrao);
     espacamentoVertical('#', tamanhoPadrao);
 
@@ -167,7 +150,161 @@ void menuBusca(bool apagaTudo) {
     printf("\n");
     imprimeRepeticao('#', tamanhoPadrao);
     printf("\n");
+
+    printf("\n::: ");
+    gets(nomePrato);
 }
 
+void menuInserePrato(Sprato *cardapio) {
+    int tamanhoNome, tamanhoPadrao = TAMANHO_PADRAO;
+    char *nomeNovoPrato, nomePratoAux[50];
+    float valorPrato;
+
+    // Primeira etapa: Perguntar o nome do prato
+    system("@cls||clear");
+
+    imprimeRepeticao('#', tamanhoPadrao);
+    printf("\n");
+    imprimeRepeticao('#', tamanhoPadrao);
+
+    // Pula linha no menu (espaçamento vertical)
+    espacamentoVertical('#', tamanhoPadrao);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("             ATENCAO! Você está no menu de              ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("               inserção de um novo prato.               ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+    espacamentoVertical('#', tamanhoPadrao);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("      Digite o nome do prato que está inserindo?        ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+
+    // Pula linha no menu (espaçamento vertical)
+    espacamentoVertical('#', tamanhoPadrao);
+    espacamentoVertical('#', tamanhoPadrao);
+
+    // Rodapé
+    printf("\n");
+    imprimeRepeticao('#', tamanhoPadrao);
+    printf("\n");
+
+    // Lendo nome do prato
+    printf("\n::: ");
+    gets(nomePratoAux);
+
+    // Alocando nome dinamicamente
+    tamanhoNome = strlen(nomePratoAux);
+
+    // Alocando memória para o nome do prato
+    nomeNovoPrato = (char *)malloc(tamanhoNome * sizeof(char));
+    if (nomeNovoPrato == NULL) {
+        printf("Erro ao alocar memória!\n");
+        return 1;
+    }
+
+    // Copiando uma string para a memória alocada
+    strcpy(nomeNovoPrato, nomePratoAux);
+
+    // Segunda etapa: Perguntar o valor do prato    
+    system("@cls||clear");
+
+    imprimeRepeticao('#', tamanhoPadrao);
+    printf("\n");
+    imprimeRepeticao('#', tamanhoPadrao);
+
+    // Pula linha no menu (espaçamento vertical)
+    espacamentoVertical('#', tamanhoPadrao);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("             ATENCAO! Você está no menu de              ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("               inserção de um novo prato.               ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+    espacamentoVertical('#', tamanhoPadrao);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("                Nome do prato: %s            ", nomeNovoPrato);
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+    espacamentoVertical('#', tamanhoPadrao);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("      Digite o valor do prato que está inserindo?        ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+
+    // Pula linha no menu (espaçamento vertical)
+    espacamentoVertical('#', tamanhoPadrao);
+    espacamentoVertical('#', tamanhoPadrao);
+
+    // Rodapé
+    printf("\n");
+    imprimeRepeticao('#', tamanhoPadrao);
+    printf("\n");
+
+    printf("\n::: ");
+    scanf("%f", &valorPrato);
+
+    // Liberando a memória alocada
+    free(nomeNovoPrato);
+
+    adicionaPratoNoCardapio(criaNovoPrato(nomePratoAux, valorPrato), cardapio);
+}
+
+int menuExcluiPrato(bool apagaTudo) {
+    int tamanhoPadrao = TAMANHO_PADRAO,
+        pratoId;
+
+    if (apagaTudo) system("@cls||clear");
+
+    imprimeRepeticao('#', tamanhoPadrao);
+    printf("\n");
+    imprimeRepeticao('#', tamanhoPadrao);
+
+    // Pula linha no menu (espaçamento vertical)
+    espacamentoVertical('#', tamanhoPadrao);
+
+    
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("      ATENCAO! Você está no de exclusão de um prato     ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+    printf("\n");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+    printf("       Qual o ID do prato que deseja excluir?           ");
+    imprimeRepeticao('#', (tamanhoPadrao - 56)/2);
+
+
+    // Pula linha no menu (espaçamento vertical)
+    espacamentoVertical('#', tamanhoPadrao);
+    espacamentoVertical('#', tamanhoPadrao);
+
+    // Rodapé
+    printf("\n");
+    imprimeRepeticao('#', tamanhoPadrao);
+    printf("\n");
+
+    printf("\n::: ");
+    scanf("%d", &pratoId);
+
+    return pratoId;
+}
 
 #endif

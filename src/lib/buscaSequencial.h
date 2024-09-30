@@ -17,10 +17,13 @@ Sprato *buscaPratoPorId(Sprato *prato, int pratoId) {
 
 Sprato *buscaPratoPorNome(Sprato *prato, char nomeCard[]) {
     Sprato *pratoAux = prato;
+    int cont = 0;
 
-    while (pratoAux != NULL) {
-        if (strcmp(pratoAux->nome, nomeCard) == 0) 
+    while (pratoAux != NULL && pratoAux->proximo->posicao > pratoAux->posicao) {
+        if (strcmp(pratoAux->nome, nomeCard) == 0)
+        {
             return deepCopyPrato(pratoAux);
+        }
         pratoAux = pratoAux->proximo;
     }
     return NULL;

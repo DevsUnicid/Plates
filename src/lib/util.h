@@ -4,7 +4,6 @@
 #include<string.h>
 #include<ctype.h>
 
-#include "structBoosterBox.h"
 
 struct sPrato *buscaUltimoPrato(struct sPrato *cardapio) {
     struct sPrato *pratoAux;
@@ -50,27 +49,11 @@ char *trim(char *s) {
     return rightTrim(leftTrim(s)); 
 }
 
-int calculaCMC(char CMC[]) {
-    int custo;
-
-    if (isalpha(CMC[0])) { 
-        if (CMC[0] == 'X') custo = 0;
-        else return 1;
-    }
-    else custo = CMC[0] - '0';
-
-    if (strlen(CMC) == 2) return custo + 1;
-    else if (strlen(CMC) == 3) return custo + 2;
-    else if (strlen(CMC) == 4) return custo + 3;
-    else if (strlen(CMC) == 5) return custo + 4;
-    else if (strlen(CMC) == 6) return custo + 5;
-    else return custo + 6;
-}
-
 Sprato *deepCopyPrato(Sprato *pratoAlvo) {
     Sprato *pNovoPrato = (Sprato *)malloc(sizeof(Sprato));
 
     strcpy(pNovoPrato->nome, pratoAlvo->nome);
+    pNovoPrato->valor = pratoAlvo->valor;
     pNovoPrato->pratoId = pratoAlvo->pratoId;
     pNovoPrato->proximo = NULL;
     pNovoPrato->anterior = NULL;
@@ -78,43 +61,16 @@ Sprato *deepCopyPrato(Sprato *pratoAlvo) {
     return pNovoPrato;
 }
 
-Sprato *deepCopyBooster(Sprato *boosterAlvo) {
-    Sprato *boosterNovo = boosterNovo = deepCopyPrato(boosterAlvo),
-          *auxUltimo = boosterAlvo;
+int contaPratos(Sprato *cardapio) {
+    Sprato *aux = cardapio;
+    int contador = 1;
 
-    while(boosterAlvo->proximo != NULL) {
-        boosterAlvo = boosterAlvo->proximo;
-        auxUltimo = buscaUltimoPrato(boosterNovo);
-        auxUltimo->proximo = deepCopyPrato(boosterAlvo);
-    }
-    return boosterNovo;
-}
-
-void randomArrayInt (int qtd, int vetor[]) {
-    // Nova semente a cada chamada
-    srand( time(NULL) );
-
-    for(int i = 0; i < qtd; i++) vetor[i] = rand() % 10;
-}
-
-int contaTamanhoLista(Sprato *lista) {
-    Sprato *aux = lista;
-    int contador;
-
-    for (contador = 1; aux->proximo != NULL; contador++) {
+    while(aux->posicao < aux->proximo->posicao) {
         aux = aux->proximo;
+        contador++;
     }
 
     return contador;
-}
-
-Mbox *iniciaBoosterBox() {
-    Mbox *boosterBox = (Mbox *) malloc(sizeof(Mbox));
-
-    for (int i = 0; i < 36; i++) {
-        boosterBox->boosters[i] = NULL;
-    }
-    return boosterBox;
 }
 
 #endif

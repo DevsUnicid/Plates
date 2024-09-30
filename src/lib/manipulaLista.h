@@ -45,6 +45,18 @@ void adicionaPratoNoCardapio(Sprato *novoPrato, Sprato *cardapio)
     }
 }
 
+Sprato * criaNovoPrato(char *nomePrato, float valorPrato) {
+    struct sPrato *novoPrato = (struct sPrato *) malloc(sizeof(struct sPrato));
+
+    novoPrato = (struct sPrato *)malloc(sizeof(struct sPrato));
+    strcpy(novoPrato->nome, nomePrato);
+    novoPrato->valor = valorPrato;
+    novoPrato->pratoId = rand() % 100;
+
+
+    return novoPrato;
+}
+
 Sprato *alocaPratoFromChar(char infoPrato[], int numeroCarta) 
 {
     struct sPrato *pNovoPrato;
@@ -90,30 +102,29 @@ int imprimeCardapio(Sprato *cardapio, bool simplificado) {
     while(pratoAtual->posicao < pratoAtual->proximo->posicao) {
         pratoAtual = pratoAtual->proximo;
         
-        // Imprime demais cartas
+        // Imprime demais pratos
         apresentainfoPrato(*pratoAtual);
     }
+    if (!simplificado) {printf("\n\n");}
 }
 
-void escolheCardsAleatorio(Sprato *lista, int qtd, Sprato **booster) {
-    int cardEscolhido, contaCards = 1;
-    Sprato *auxUltimo, *aux = lista;
+Sprato * excluiPratoPorId(Sprato *cardapio, int pratoId) {
+    struct sPrato *pratoAux = cardapio;
 
-    while(contaCards <= qtd) {
-        cardEscolhido = rand() % 10 + 1;
-
-        for (int i = 0; i < cardEscolhido ; i++) {
-            aux = aux->proximo;
-            if (aux == NULL) aux = lista;
-        }
-
-        if (*booster == NULL) *booster = deepCopyPrato(aux);
-        else {
-            auxUltimo = buscaUltimoPrato(*booster);
-            auxUltimo->proximo = deepCopyPrato(aux);
-        }
-        contaCards++;
+    while(pratoAux->pratoId != pratoId) {
+        pratoAux = pratoAux->proximo;
     }
+
+    if (pratoAux->pratoId == pratoId) {
+        pratoAux->anterior->proximo = pratoAux->proximo;
+        pratoAux->proximo->anterior = pratoAux->anterior;
+        pratoAux->proximo = NULL;
+        pratoAux->anterior = NULL;
+
+        return pratoAux;
+    }
+
+    return NULL;
 }
 
 #endif
